@@ -27,11 +27,12 @@ class PDFReader:
         # creating the window
         self.master = master
         # gives title to the main window
+        self.master.resizable(True, True)
         self.master.title('PDF Reader')
         # gives dimensions to main window
         # self.master.geometry('580x520+440+180')
         # this disables the minimize/maximize button on the main window
-        self.master.resizable(width = 0, height = 0)
+        # self.master.resizable(width = 0, height = 0)
         # loads the icon and adds it to the main window
         # self.master.iconbitmap(self.master, 'pdf_file_icon.ico')
 
