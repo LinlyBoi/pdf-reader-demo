@@ -11,6 +11,8 @@ python = "^3.12"
 tk = "^0.1.0"
 fitz = "^0.0.1.dev2"
 pymupdf = "^1.24.13"
+tkinterpdfviewer = "^0.2"
+pillow = "^11.0.0"
 
 
 [build-system]

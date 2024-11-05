@@ -76,6 +76,8 @@ class PDFReader:
         self.output.configure(yscrollcommand=self.scrolly.set, xscrollcommand=self.scrollx.set)
         # adding the canvas
         self.output.grid(row=0, column=0)
+        self.output.rowconfigure(0, weight=1)
+        self.output.columnconfigure(0, weight=1)
         # configuring the horizontal scrollbar to the canvas
         self.scrolly.configure(command=self.output.yview)
         # configuring the vertical scrollbar to the canvas
@@ -103,6 +105,12 @@ class PDFReader:
         self.page_label = ttk.Label(self.bottom_frame, text='page')
         # adding the label
         self.page_label.grid(row=0, column=4, padx=5)
+        self.master.rowconfigure(0, weight=1)
+        self.master.columnconfigure(0, weight=1)
+        # self.top_frame.rowconfigure(0, weight=1)
+        # self.top_frame.columnconfigure(0, weight=1)
+        self.output.pack(fill="both", expand=True)
+        self.output.bind("<Configure>", self.on_resize)
     # function for opening pdf files
 
     def open_file(self):
@@ -115,9 +123,9 @@ class PDFReader:
             # extracting the pdf file from the path
             filename = os.path.basename(self.path)
             # passing the path to PDFViewer
-            self.miner = PDFViewer(self.path)
+            self.viewer = PDFViewer(self.path)
             # getting data and numPages
-            data, numPages = self.miner.get_metadata()
+            data, numPages = self.viewer.get_metadata()
             # setting the current page to 0
             self.current_page = 0
             # checking if numPages exists
@@ -140,7 +148,7 @@ class PDFReader:
         # or equal to 0
         if 0 <= self.current_page < self.numPages:
             # getting the page using get_page() function from miner
-            self.img_file = self.miner.get_page(self.current_page)
+            self.img_file = self.viewer.get_page(self.current_page)
             # inserting the page image inside the Canvas
             self.output.create_image(0, 0, anchor='nw', image=self.img_file)
             # the variable to be stringified
@@ -174,6 +182,13 @@ class PDFReader:
                 # displaying the new page
                 self.display_page()
 
+    def on_resize(self, event):
+        # Get the new window dimensions
+        window_width = root.winfo_width()
+        window_height = root.winfo_height()
+        # new_height = event.height
+        # Update the canvas size
+        self.output.config(width=window_width, height=window_height)
 # creating the root window using Tk() class
 root = Tk()
     # instantiating/creating object app for class PDFViewer
